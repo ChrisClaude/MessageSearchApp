@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import pytest
-from src.document_utilities import find_all_pdfs
+from src.document_utilities import find_all_pdfs, load_documents
 
 @pytest.fixture
 def sample_pdf_directory(tmp_path):
@@ -15,6 +15,7 @@ def sample_pdf_directory(tmp_path):
     return d
 
 
+# region find_all_pdfs tests
 def test_find_all_pdfs_returns_pdfs_in_directory(sample_pdf_directory):
     pdfs = find_all_pdfs(str(sample_pdf_directory))
     assert len(pdfs) == 3
@@ -64,3 +65,14 @@ def test_find_all_pdfs_uppercase_extension(tmp_path):
     (tmp_path / "upper.PDF").touch()
     pdfs = find_all_pdfs(str(tmp_path))
     assert len(pdfs) == 1
+    
+# endregion find_all_pdfs tests
+
+# region load_documents tests
+# This test depends on the data folder being in the correct place with the correct count of pdfs
+def test_load_documents_in_data_folder():
+    data_dir = Path(__file__).resolve().parent.parent / "data"
+    docs = load_documents(str(data_dir))
+
+    assert len(docs) > 10
+# endregion load_documents tests
