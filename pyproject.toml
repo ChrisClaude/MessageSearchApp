@@ -1,0 +1,20 @@
+[project]
+name = "messagesearchapp"
+version = "0.1.0"
+description = "Message RAG app"
+authors = [
+    {name = "Chris Claude",email = "christ.tchambila@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "langchain-text-splitters (>=0.3.8,<0.4.0)",
+    "langchain-community (>=0.3.27,<0.4.0)",
+    "langgraph (>=0.5.2,<0.6.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
