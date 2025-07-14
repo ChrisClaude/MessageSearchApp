@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import pytest
 from src.document_utilities import find_all_pdfs
 
@@ -25,6 +27,14 @@ def test_find_all_pdfs_empty_directory(tmp_path):
     
     pdfs = find_all_pdfs(str(empty_dir))
     assert pdfs == []
+    
+# This test depends on the data folder being in the correct place with the correct count of pdfs
+def test_find_all_pdfs_in_data_folder():
+    data_dir = Path(__file__).resolve().parent.parent / "data"
+    pdfs = find_all_pdfs(str(data_dir))
+
+    assert len(pdfs) == 9
+    assert all(p.suffix == ".pdf" for p in pdfs)
     
     
 def test_find_all_pdfs_nested_structure(tmp_path):
