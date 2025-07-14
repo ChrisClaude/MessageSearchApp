@@ -1,4 +1,3 @@
-import os
 import pytest
 from src.document_utilities import find_all_pdfs
 
@@ -15,7 +14,43 @@ def sample_pdf_directory(tmp_path):
 
 
 def test_find_all_pdfs_returns_pdfs_in_directory(sample_pdf_directory):
-    
     pdfs = find_all_pdfs(str(sample_pdf_directory))
     assert len(pdfs) == 3
     assert all(pdf.suffix == ".pdf" for pdf in pdfs)
+    
+    
+def test_find_all_pdfs_empty_directory(tmp_path):
+    empty_dir = tmp_path / "empty"
+    empty_dir.mkdir()
+    
+    pdfs = find_all_pdfs(str(empty_dir))
+    assert pdfs == []
+    
+    
+def test_find_all_pdfs_nested_structure(tmp_path):
+    root = tmp_path / "root"
+    nested = root / "nested"
+    nested.mkdir(parents=True)
+    (nested / "nested_doc.pdf").touch()
+    (root / "root_doc.pdf").touch()
+
+    pdfs = find_all_pdfs(str(root))
+    assert len(pdfs) == 2
+    assert any("nested_doc.pdf" in str(p) for p in pdfs)
+    assert any("root_doc.pdf" in str(p) for p in pdfs)
+    
+    
+def test_find_all_pdfs_ignores_non_pdf_files(tmp_path):
+    (tmp_path / "file.txt").touch()
+    (tmp_path / "image.png").touch()
+    (tmp_path / "doc.pdf").touch()
+
+    pdfs = find_all_pdfs(str(tmp_path))
+    assert len(pdfs) == 1
+    assert pdfs[0].name == "doc.pdf"
+      
+        
+def test_find_all_pdfs_uppercase_extension(tmp_path):
+    (tmp_path / "upper.PDF").touch()
+    pdfs = find_all_pdfs(str(tmp_path))
+    assert len(pdfs) == 1
