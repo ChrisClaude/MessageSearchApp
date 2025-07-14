@@ -4,5 +4,6 @@ __pycache__/
 .venv/
 *.egg-info/
 data/
+data_2/
 .DS_Store
 .vscode/settings.json
