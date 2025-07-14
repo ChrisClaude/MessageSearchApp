@@ -1,6 +1,6 @@
 import os
 import pytest
-from document_utilities import find_all_pdfs
+from src.document_utilities import find_all_pdfs
 
 @pytest.fixture
 def sample_pdf_directory(tmp_path):
