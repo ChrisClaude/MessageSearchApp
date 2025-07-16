@@ -75,4 +75,10 @@ def test_load_documents_in_data_folder():
     docs = load_documents(str(data_dir))
 
     assert len(docs) > 10
+    
+def test_load_documents_excludes_files():
+    data_dir = Path(__file__).resolve().parent.parent / "data"
+    docs = load_documents(str(data_dir), exclude=["65-0124 Birth Pains VGR.pdf"])
+
+    assert len(docs) == 0
 # endregion load_documents tests
